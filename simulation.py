@@ -7,19 +7,20 @@ Vf = Vi + T/I *t
 Of = Oi + Vf*t
 """
 
+from states import PhysicalState
+
 #TODO Add gravity
 #TODO Add floor
 
 m = 1
 r = 1
 t = 0.01
-def new_state(T, theta_i, Vi):
+def new_state(T, initial_physical_state):
     """
     :param T: torque
-    :param theta_i: initial angle
-    :param Vi: initial velocity
-    :return: Vf, theta_f
+    :param initial_physical_state:
+    :return: final_physical_state
     """
-    Vf = Vi + (T/(m*r^2))*t
-    theta_f = theta_i + Vf*t
-    return Vf, theta_f
+    Vf = initial_physical_state.V + (T/(m*r^2))*t
+    theta_f = initial_physical_state.theta + Vf*t
+    return PhysicalState(theta_f, Vf)

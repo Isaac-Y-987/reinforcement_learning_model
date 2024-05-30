@@ -2,6 +2,7 @@
 Classes to be used as standardized ways to fully describe a state.
 """
 
+from math import pi, floor
 
 class PhysicalState:
     """
@@ -14,7 +15,17 @@ class PhysicalState:
         """
         self.theta = theta
         self.v = v
-
+    def get_learning_state(self):
+        angle = floor(self.theta/(pi/9))
+        if abs(self.v) >= 2*pi:
+            velocity = 3
+        elif abs(self.v) >= pi:
+            velocity = 2
+        elif abs(self.v) >= 0:
+            velocity = 1
+        if self.v <0:
+            velocity *= -1
+        return LearningState(angle, velocity)
 
 class LearningState:
     """
@@ -29,3 +40,4 @@ class LearningState:
         """
         self.angle = angle
         self.velocity = velocity
+
