@@ -8,7 +8,7 @@ Of = Oi + Vf*t
 """
 
 from states import PhysicalState
-
+import math
 #TODO Add gravity
 #TODO Add floor
 
@@ -21,6 +21,12 @@ def new_state(T, initial_physical_state):
     :param initial_physical_state:
     :return: final_physical_state
     """
+    if initial_physical_state.theta <= 0:
+        initial_physical_state.V *= -0.7
+        initial_physical_state.theta = 0
+    if initial_physical_state.theta >= math.pi:
+        initial_physical_state.V *= -0.7
+        initial_physical_state.theta = math.pi
     Vf = initial_physical_state.V + (T/(m*r^2))*t
     theta_f = initial_physical_state.theta + Vf*t
     return PhysicalState(theta_f, Vf)
