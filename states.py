@@ -40,4 +40,3 @@ class LearningState:
         """
         self.angle = angle
         self.velocity = velocity
-
