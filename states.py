@@ -8,13 +8,19 @@ class PhysicalState:
     """
     All information fully defining a state for physical simulation.
     """
-    def __init__(self, theta: float, v: float):
+    def __init__(self, theta: float, v: float, m:float, r: float, t:float):
         """
         :param theta:       angle (radians)
         :param v:           angular velocity (radians per second)
+        :param m:           mass (kg)
+        :param r:           radius (m)
+        :param t:           timestep (s)
         """
         self.theta = theta
         self.v = v
+        self.m = m
+        self.r = r
+        self.t = t
     def get_learning_state(self):
         angle = floor(self.theta/(pi/9))
         if abs(self.v) >= 2*pi:

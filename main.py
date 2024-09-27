@@ -1,5 +1,3 @@
-greeting = "Hello!"
-print(greeting)
-
-farewell = "Bye for now!"
-print(farewell)
+m = 1
+r = 1
+t = 0.01
