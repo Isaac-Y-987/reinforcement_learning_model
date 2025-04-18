@@ -23,6 +23,7 @@ class PhysicalState:
         self.t = t
     def get_learning_state(self):
         angle = floor(self.theta/(pi/9))
+            #Assigns the angle to one of 9 sections
         if abs(self.v) >= 2*pi:
             velocity = 3
         elif abs(self.v) >= pi:
@@ -31,6 +32,7 @@ class PhysicalState:
             velocity = 1
         if self.v <0:
             velocity *= -1
+        #Assigns the velocity to one of 6 levels (slow, med, fast, and the same in the other direction)
         return LearningState(angle, velocity)
 
 class LearningState:

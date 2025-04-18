@@ -10,9 +10,8 @@ Of = Oi + Vf*t
 from states import PhysicalState
 import math
 #TODO Add gravity
-#TODO Add floor
 
-def new_state(T, initial_physical_state):
+def new_state(T, initial_physical_state: PhysicalState):
     """
     :param T: torque
     :param initial_physical_state:
@@ -26,6 +25,7 @@ def new_state(T, initial_physical_state):
 
     if theta <= 0:
         V *= -0.7
+        #TODO play around with this value
         theta = 0
     if theta >= math.pi:
         V *= -0.7
