@@ -48,3 +48,9 @@ class LearningState:
         """
         self.angle = angle
         self.velocity = velocity
+
+    def __hash__(self):
+        return hash((self.angle, self.velocity))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and other.angle == self.angle and other.velocity == self.velocity
