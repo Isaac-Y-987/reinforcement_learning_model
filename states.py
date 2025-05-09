@@ -49,6 +49,15 @@ class LearningState:
         self.angle = angle
         self.velocity = velocity
 
+    def reward(self, number_of_turns, gamma):
+        """
+        :param number_of_turns: number of turns that have already occurred
+        :param gamma: reward decay rate
+        :return: the reward
+        """
+        reward = (4.5-abs(4.5-self.angle)*gamma**number_of_turns)
+        return reward
+
     def __hash__(self):
         return hash((self.angle, self.velocity))
 
