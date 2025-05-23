@@ -41,4 +41,4 @@ class LearningModel:
         :return:
         :modify: q value of taking action_0 at state_0
         """
-        self.q_by_state[previous_state][action_0] = (1 - self.alpha) * self.q_by_state[previous_state][action_0] + (self.alpha)(reward + self.gamma * (self.best_action(current_state)[1]))
+        self.q_by_state[previous_state][action_0] = (1 - self.alpha) * self.q_by_state[previous_state][action_0] + (self.alpha)*(reward + self.gamma * (self.best_action(current_state)[1]))
