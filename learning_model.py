@@ -6,16 +6,24 @@ def empty_choices():
     choices = {-3: 0, -2: 0, -1: 0, 0: 0, 1: 0, 2: 0, 3: 0}
     return choices
 
+def one_choices():
+    choices = {-3: 1, -2: 1, -1: 1, 0: 1, 1: 1, 2: 1, 3: 1}
+    return choices
+
 
 class LearningModel:
-    def __init__(self, alpha, gamma):
+    def __init__(self, alpha, gamma, k):
         """
         :param alpha: learning rate (0-1]
         :param gamma: reward decay rate (0-1]
+        :param k:     exploration constant [0-inf).  Higher values encourage more exploration.
         """
-        self.q_by_state = defaultdict(empty_choices)
+        self.q_by_state = defaultdict(empty_choices)    # First key is state, second key is action
+        self.visit_counts = defaultdict(one_choices)    # First key is state, second key is action
         self.alpha = alpha
         self.gamma = gamma
+        self.k = k
+
     def best_action(self, current_state: LearningState):
         """
         :param current_state: the current state of the agent
@@ -24,13 +32,31 @@ class LearningModel:
         best_action = 0
         q_best_action = -float("inf")
         for key, value in self.q_by_state[current_state].items():
+            visit_count = self.visit_counts[current_state][key]
+            value = self.appreciate_novelty(value, visit_count)
             if value > q_best_action:
                 q_best_action = value
                 best_action = key
         return best_action, q_best_action
 
     def take_action(self, current_state: LearningState):
-        return self.best_action(current_state)[0]
+        """
+        Return the best action for this state and increment the visit count for this state+action combination.
+        :param current_state:
+        :return:
+        """
+        best_action = self.best_action(current_state)[0]
+        self.visit_counts[current_state][best_action] += 1
+        return best_action
+
+    def appreciate_novelty(self, value_estimate, visit_count):
+        """
+        Add a bonus score to the value estimate that is greater for lower visit counts.
+        :param value_estimate:      raw Q score for this state-action pair
+        :param visit_count:         number of times this state-action pair has been visited.
+        :return:                    the value estimate plus some bonus
+        """
+        return value_estimate + self.k / visit_count
 
     def update_q(self, previous_state: LearningState, reward, current_state: LearningState, action_0):
         """
