@@ -23,7 +23,7 @@ def new_state(T, initial_physical_state: PhysicalState):
     r = initial_physical_state.r
     dt = initial_physical_state.dt
 
-    Vf = v + (T/(m*r^2)) * dt
+    Vf = v + (T/(m*r**2)) * dt
     theta_f = theta + Vf * dt
     if theta_f <= 0:
         v *= -0.7
