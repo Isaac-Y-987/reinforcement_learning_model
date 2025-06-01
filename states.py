@@ -41,7 +41,7 @@ class LearningState:
     """
     def __init__(self, angle: int, velocity: int):
         """
-        :param angle:           int in the range [0,9] inclusive.  0 represents the most clockwise position.
+        :param angle:           int in the range [0,8] inclusive.  0 represents the most clockwise position.
         :param velocity:        int in the range [-3, -1] inclusive or [1, 3].  -3 represents the fastest velocity in
                                 the clockwise direction, and 3 represents the fastest velocity in the counterclockwise
                                 direction.
@@ -53,7 +53,7 @@ class LearningState:
         """
         :return: the reward
         """
-        reward = 4.5-abs(4.5-self.angle)
+        reward = 4-abs(4-self.angle)
         return reward
 
     def __hash__(self):
