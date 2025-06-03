@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 m = 0.1
 r = 0.1
-g = 4
+g = 9.81
 dt = 0.01
 end_time = 25000
 alpha = 0.1
