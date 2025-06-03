@@ -8,7 +8,7 @@ from tqdm import tqdm
 m = 0.1
 r = 0.1
 dt = 0.01
-end_time = 30000
+end_time = 15000
 alpha = 0.1
 gamma = 0.995
 k = 1000
@@ -27,19 +27,18 @@ k = 1000
 # Run simulation
 all_timestamps = np.arange(0, end_time,dt)
 all_thetas = []
+all_angles = []
 all_rewards = []
 physical_state = PhysicalState(0,0,m, r, dt) # 1
 learning_state = physical_state.get_learning_state() # 2
 learning_model = LearningModel(alpha, gamma, k)
 for time in tqdm(all_timestamps):
     action = learning_model.take_action(learning_state) # 3 & 4
-    #print(f"Action is {action}")
     initial_learning_state = physical_state.get_learning_state()
     physical_state = simulation.new_state(action, physical_state) # 5
-    #print(f"New physical state is {physical_state.__dict__}")
     all_thetas.append(physical_state.theta)
     learning_state = physical_state.get_learning_state() # 6
-    #print(f"New learning state is {learning_state.__dict__}")
+    all_angles.append(learning_state.angle)
     reward = learning_state.reward() #7
     all_rewards.append(reward)
     learning_model.update_q(initial_learning_state, reward, learning_state, action) #8
@@ -55,7 +54,7 @@ plt.legend(["angle", "reward"])
 plt.show()
 
 # Plot results
-fig, axs = plt.subplots(2)
+fig, axs = plt.subplots(3)
 axs[0].plot(all_timestamps, all_thetas)
 axs[0].plot(all_timestamps, [np.pi/2]*len(all_timestamps))
 axs[0].set_xlabel("time (s)")
@@ -63,4 +62,6 @@ axs[0].set_ylabel("angle (rad)")
 axs[1].plot(all_timestamps, all_rewards)
 axs[1].set_xlabel("time (s)")
 axs[1].set_ylabel("reward")
+counts, bins = np.histogram(all_angles)
+axs[2].stairs(counts, bins)
 plt.show()
