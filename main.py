@@ -24,6 +24,21 @@ k = 1000
         8. update_q
 """
 
+
+def compute_histogram(all_learning_angles: list) -> tuple:
+    """
+    Compute values that can be used in pyplot to create a histogram.
+    :param all_learning_angles:     list of the angle value at each timestep
+    :return:                        tuple containing two elements:
+                                        [0] list of learning angle values
+                                        [1] list of the same length, containing the number of occurrences of the
+                                        learning angle value in the same position
+    """
+    element_0 = [ii - 0.5 for ii in range(10)]
+    element_1 = [all_learning_angles.count(ii) for ii in range(9)]
+    return (element_0, element_1)
+
+
 # Run simulation
 all_timestamps = np.arange(0, end_time,dt)
 all_thetas = []
@@ -63,7 +78,7 @@ axs[0].set_ylabel("angle (rad)")
 axs[1].plot(all_timestamps, all_rewards)
 axs[1].set_xlabel("time (s)")
 axs[1].set_ylabel("reward")
-counts, bins = np.histogram(all_learning_angles)
+bins, counts = compute_histogram(all_learning_angles)
 axs[2].stairs(counts, bins)
 axs[2].set_xlabel("learning angle")
 axs[2].set_ylabel("num occurrences")
