@@ -9,7 +9,7 @@ m = 0.1
 r = 0.1
 g = 4
 dt = 0.01
-end_time = 5000
+end_time = 25000
 alpha = 0.1
 gamma = 0.995
 k = 10000
@@ -28,7 +28,7 @@ k = 10000
 
 def compute_histogram(all_learning_angles: list) -> tuple:
     """
-    Compute values that can be used in pyplot to create a histogram.
+    Compute values that can be used in pyplot to create a histogram of learning angles.
     :param all_learning_angles:     list of the angle value at each timestep
     :return:                        tuple containing two elements:
                                         [0] list of learning angle values
@@ -43,6 +43,7 @@ def compute_histogram(all_learning_angles: list) -> tuple:
 # Run simulation
 all_timestamps = np.arange(0, end_time,dt)
 all_thetas = []
+all_vs = []
 all_learning_angles = []
 all_rewards = []
 physical_state = PhysicalState(0,0,m, r, g, dt) # 1
@@ -53,6 +54,7 @@ for time in tqdm(all_timestamps):
     initial_learning_state = physical_state.get_learning_state()
     physical_state = simulation.new_state(action, physical_state) # 5
     all_thetas.append(physical_state.theta)
+    all_vs.append(physical_state.v)
     learning_state = physical_state.get_learning_state() # 6
     all_learning_angles.append(learning_state.angle)
     reward = learning_state.reward() #7
@@ -71,7 +73,7 @@ plt.xlabel("physical angle")
 plt.show()
 
 # Plot results
-fig, axs = plt.subplots(3)
+fig, axs = plt.subplots(4)
 axs[0].plot(all_timestamps, all_thetas)
 axs[0].plot(all_timestamps, [np.pi/2]*len(all_timestamps))
 axs[0].legend(["physical angle", "zenith"])
@@ -84,4 +86,8 @@ bins, counts = compute_histogram(all_learning_angles)
 axs[2].stairs(counts, bins)
 axs[2].set_xlabel("learning angle")
 axs[2].set_ylabel("num occurrences")
+counts, bins = np.histogram(all_vs, bins=100)
+axs[3].stairs(counts, bins)
+axs[3].set_xlabel("physical velocity (rad/s)")
+axs[3].set_ylabel("num_occurrences")
 plt.show()
