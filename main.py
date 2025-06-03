@@ -27,7 +27,7 @@ k = 1000
 # Run simulation
 all_timestamps = np.arange(0, end_time,dt)
 all_thetas = []
-all_angles = []
+all_learning_angles = []
 all_rewards = []
 physical_state = PhysicalState(0,0,m, r, dt) # 1
 learning_state = physical_state.get_learning_state() # 2
@@ -38,7 +38,7 @@ for time in tqdm(all_timestamps):
     physical_state = simulation.new_state(action, physical_state) # 5
     all_thetas.append(physical_state.theta)
     learning_state = physical_state.get_learning_state() # 6
-    all_angles.append(learning_state.angle)
+    all_learning_angles.append(learning_state.angle)
     reward = learning_state.reward() #7
     all_rewards.append(reward)
     learning_model.update_q(initial_learning_state, reward, learning_state, action) #8
@@ -50,7 +50,8 @@ theoretical_rewards = [PhysicalState(theta=xx, v=1, m=m, r=r, dt=dt).get_learnin
 plt.figure()
 plt.plot(x, y)
 plt.plot(x, theoretical_rewards)
-plt.legend(["angle", "reward"])
+plt.legend(["learning angle", "reward"])
+plt.xlabel("physical angle")
 plt.show()
 
 # Plot results
@@ -62,6 +63,8 @@ axs[0].set_ylabel("angle (rad)")
 axs[1].plot(all_timestamps, all_rewards)
 axs[1].set_xlabel("time (s)")
 axs[1].set_ylabel("reward")
-counts, bins = np.histogram(all_angles)
+counts, bins = np.histogram(all_learning_angles)
 axs[2].stairs(counts, bins)
+axs[2].set_xlabel("learning angle")
+axs[2].set_ylabel("num occurrences")
 plt.show()
