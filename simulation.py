@@ -9,7 +9,6 @@ Of = Oi + Vf*t
 
 from states import PhysicalState
 import math
-#TODO Add gravity
 
 def new_state(T, initial_physical_state: PhysicalState):
     """
@@ -21,9 +20,12 @@ def new_state(T, initial_physical_state: PhysicalState):
     v = initial_physical_state.v
     m = initial_physical_state.m
     r = initial_physical_state.r
+    g = initial_physical_state.g
     dt = initial_physical_state.dt
 
-    Vf = v + (T/(m*r**2)) * dt
+    gravitational_torque = -g * r * math.cos(theta)
+    total_torque = T + gravitational_torque
+    Vf = v + (total_torque/(m*r**2)) * dt
     theta_f = theta + Vf * dt
     if theta_f <= 0:
         Vf *= -0.7
@@ -32,5 +34,5 @@ def new_state(T, initial_physical_state: PhysicalState):
     if theta_f >= math.pi:
         Vf *= -0.7
         theta_f = math.pi
-    new_physical_state = PhysicalState(theta_f, Vf, m, r, dt)
+    new_physical_state = PhysicalState(theta_f, Vf, m, r, g, dt)
     return new_physical_state

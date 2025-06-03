@@ -1,7 +1,9 @@
 from collections import defaultdict
 from states import LearningState
 
-choices = [-1.5, -1, -0.5, 0, 0.5, 1, 1.5]
+choices = [0.25, 0.5, 0.75, 1, 1.5, 3, 4, 5, 7.5, 10, 12.5, 15, 17.5, 20]                      # Define available actions in one direction...
+choices = [-choice for choice in choices] + choices         # ...and the opposite direction...
+choices.append(0)                                           # ...and allow the motor to be idle
 
 def empty_choices():
     return {choice: 0 for choice in choices}

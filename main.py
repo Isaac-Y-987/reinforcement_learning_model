@@ -7,11 +7,12 @@ from tqdm import tqdm
 
 m = 0.1
 r = 0.1
+g = 4
 dt = 0.01
-end_time = 500
+end_time = 5000
 alpha = 0.1
 gamma = 0.995
-k = 1000
+k = 10000
 
 
 """
@@ -44,7 +45,7 @@ all_timestamps = np.arange(0, end_time,dt)
 all_thetas = []
 all_learning_angles = []
 all_rewards = []
-physical_state = PhysicalState(0,0,m, r, dt) # 1
+physical_state = PhysicalState(0,0,m, r, g, dt) # 1
 learning_state = physical_state.get_learning_state() # 2
 learning_model = LearningModel(alpha, gamma, k)
 for time in tqdm(all_timestamps):
@@ -60,8 +61,8 @@ for time in tqdm(all_timestamps):
 
 # Plot sectors
 x = [float(xx) for xx in np.arange(0, np.pi, 0.001)]
-y = [PhysicalState(theta=xx, v=1, m=m, r=r, dt=dt).get_learning_state().angle for xx in x]
-theoretical_rewards = [PhysicalState(theta=xx, v=1, m=m, r=r, dt=dt).get_learning_state().reward() for xx in x]
+y = [PhysicalState(theta=xx, v=1, m=m, r=r, g=g, dt=dt).get_learning_state().angle for xx in x]
+theoretical_rewards = [PhysicalState(theta=xx, v=1, m=m, r=r, g=g, dt=dt).get_learning_state().reward() for xx in x]
 plt.figure()
 plt.plot(x, y)
 plt.plot(x, theoretical_rewards)
