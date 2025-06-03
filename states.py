@@ -54,6 +54,8 @@ class LearningState:
         :return: the reward
         """
         reward = 4-abs(4-self.angle)
+        if self.angle == 4 and abs(self.velocity) <= 1:
+            reward += 100
         return reward
 
     def __hash__(self):
