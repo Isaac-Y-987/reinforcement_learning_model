@@ -35,8 +35,8 @@ def compute_histogram(all_learning_angles: list) -> tuple:
                                         [1] list of the same length, containing the number of occurrences of the
                                         learning angle value in the same position
     """
-    element_0 = [ii - 0.5 for ii in range(10)]
-    element_1 = [all_learning_angles.count(ii) for ii in range(9)]
+    element_0 = [ii - 0.5 for ii in range(11)]
+    element_1 = [all_learning_angles.count(ii) for ii in range(10)]
     return (element_0, element_1)
 
 

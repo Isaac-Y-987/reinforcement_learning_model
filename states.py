@@ -24,8 +24,8 @@ class PhysicalState:
         self.g = g
         self.dt = dt
     def get_learning_state(self):
-        angle = floor(self.theta/(pi/9))
-            #Assigns the angle to one of 9 sections
+        angle = min(9, floor(self.theta/(pi/10)))
+            #Assigns the angle to one of 10 sections
         if abs(self.v) >= 2*pi:
             velocity = 3
         elif abs(self.v) >= pi:
@@ -43,7 +43,7 @@ class LearningState:
     """
     def __init__(self, angle: int, velocity: int):
         """
-        :param angle:           int in the range [0,8] inclusive.  0 represents the most clockwise position.
+        :param angle:           int in the range [0,9] inclusive.  0 represents the most clockwise position.
         :param velocity:        int in the range [-3, -1] inclusive or [1, 3].  -3 represents the fastest velocity in
                                 the clockwise direction, and 3 represents the fastest velocity in the counterclockwise
                                 direction.
@@ -55,7 +55,7 @@ class LearningState:
         """
         :return: the reward
         """
-        if self.angle == 4 and abs(self.velocity) <= 1:
+        if self.angle in (4, 5) and abs(self.velocity) <= 1:
             return 100
         else:
             return 0
