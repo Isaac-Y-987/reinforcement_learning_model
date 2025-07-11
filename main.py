@@ -31,6 +31,8 @@ for time in np.arange(0, end_time,dt):
     learning_state = physical_state.get_learning_state() # 6
     reward = learning_state.reward() #7
     learning_model.update_q(initial_learning_state, reward, learning_state, action) #8
+    print("theta = " + str(physical_state.theta))
+    print("v =" + str(physical_state.v))
 
 
 
