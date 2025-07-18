@@ -14,6 +14,7 @@ class LearningModel:
         :param gamma: reward decay rate (0-1]
         """
         self.q_by_state = defaultdict(empty_choices)
+        self.action_tracker = defaultdict(empty_choices)
         self.alpha = alpha
         self.gamma = gamma
     def best_action(self, current_state: LearningState):
@@ -30,7 +31,9 @@ class LearningModel:
         return best_action, q_best_action
 
     def take_action(self, current_state: LearningState):
-        return self.best_action(current_state)[0]
+        action = self.best_action(current_state)[0]
+        self.action_tracker[current_state][action] +=1
+        return action
 
     def update_q(self, previous_state: LearningState, reward, current_state: LearningState, action_0):
         """

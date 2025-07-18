@@ -23,16 +23,16 @@ def new_state(T, initial_physical_state: PhysicalState):
     r = initial_physical_state.r
     dt = initial_physical_state.dt
 
-    v = v + (T/(m*r^2)) * dt
+    v = v + (20*T/(m*r**2)) * dt
     theta = theta + v * dt
 
-    """if theta <= 0:
+    if theta <= 0:
         v *= -0.7
         #TODO play around with this value
         theta = 0
     if theta >= math.pi:
         v *= -0.7
         theta = math.pi
-"""
+
     new_physical_state = PhysicalState(theta, v, m, r, dt)
     return new_physical_state
