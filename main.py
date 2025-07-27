@@ -9,6 +9,7 @@ dt = 0.01
 end_time = 30
 alpha = 0.1
 gamma = 0.995
+k = 10
 
 
 """
@@ -23,7 +24,7 @@ gamma = 0.995
 
 physical_state = PhysicalState(0,0,m, r, dt) # 1
 learning_state = physical_state.get_learning_state() # 2
-learning_model = LearningModel(alpha, gamma)
+learning_model = LearningModel(alpha, gamma, k)
 for time in np.arange(0, end_time,dt):
     action = learning_model.take_action(learning_state) # 3 & 4
     print(f"action = {action}")
@@ -34,7 +35,4 @@ for time in np.arange(0, end_time,dt):
     learning_model.update_q(initial_learning_state, reward, learning_state, action) #8
     print("theta = " + str(round((physical_state.theta), 3)))
     print("v = " + str(round((physical_state.v),3)))
-
-
-
 

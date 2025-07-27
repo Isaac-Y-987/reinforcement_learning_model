@@ -8,15 +8,17 @@ def empty_choices():
 
 
 class LearningModel:
-    def __init__(self, alpha, gamma):
+    def __init__(self, alpha, gamma, k):
         """
         :param alpha: learning rate (0-1]
         :param gamma: reward decay rate (0-1]
+        :param k: constant used to adjust the q value of a state-action pair to reflect how much it has been explored [0,+inf)
         """
         self.q_by_state = defaultdict(empty_choices)
         self.action_tracker = defaultdict(empty_choices)
         self.alpha = alpha
         self.gamma = gamma
+        self.k = k
     def best_action(self, current_state: LearningState):
         """
         :param current_state: the current state of the agent
@@ -25,6 +27,7 @@ class LearningModel:
         best_action = 0
         q_best_action = -float("inf")
         for key, value in self.q_by_state[current_state].items():
+            value = value + self.k/(self.action_tracker[current_state][key] + 1)
             if value > q_best_action:
                 q_best_action = value
                 best_action = key
