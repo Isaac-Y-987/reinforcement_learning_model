@@ -1,7 +1,6 @@
 """Borrows heavily from this source: https://scipython.com/blog/the-double-pendulum/
 Create a gif of a double pendulum.
 """
-import main
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.patches import Circle
@@ -19,7 +18,7 @@ def make_frames(theta_list):
     # Create time vector
     t = np.arange(0, end_time, dt)   # vector of times
 
-    for frame_number, theta in enumerate(theta_list):
+    for frame_number, theta in tqdm(enumerate(theta_list), total=len(theta_list)):
         make_plot(theta, frame_number)
 
 
@@ -45,7 +44,7 @@ def make_plot(theta, frame_number):
     ax.set_ylim(-r - r_bob, r + r_bob)
     ax.set_aspect('equal', adjustable='box')
     plt.axis('off')
-    plt.savefig(f"double_pendulum_outputs/frames/frame{str(frame_number).zfill(6)}.png", dpi=72)
+    plt.savefig(f"reinforcement_learning_output/frames/frame{str(frame_number).zfill(6)}.png", dpi=72)
     plt.cla()
 
 
@@ -58,5 +57,3 @@ def make_gif(frame_folder, destination_folder):
     frame_one = frames[0]
     frame_one.save(f"{destination_folder}/out.gif", format="GIF", append_images=frames,
                    save_all=True, duration=dt*1000, loop=0)    # duration is the amount of time between frames, in milliseconds
-
-make_gif("double_pendulum_outputs/frames", "double_pendulum_outputs/animations")

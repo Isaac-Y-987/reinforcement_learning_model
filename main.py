@@ -1,9 +1,11 @@
-from animation import make_frames
+from animation import make_frames, make_gif
 from states import LearningState, PhysicalState
 import simulation
 from learning_model import LearningModel
 import numpy as np
 from constants import m, r, dt, end_time, alpha, gamma, k
+import os
+import glob
 
 """
 1. set starting physical state and 2. learning state
@@ -14,6 +16,11 @@ from constants import m, r, dt, end_time, alpha, gamma, k
     7. reward
         8. update_q
 """
+
+for filename in glob.glob("reinforcement_learning_output/frames/*.png"):
+    os.remove(filename)
+if os.path.exists("reinforcement_learning_output/animations/out.gif"):
+    os.remove("reinforcement_learning_output/animations/out.gif")
 
 theta_list = []
 
@@ -33,3 +40,4 @@ for time in np.arange(0, end_time,dt):
     print("v = " + str(round(physical_state.v,3)))
 
 make_frames(theta_list)
+make_gif("reinforcement_learning_output/frames", "reinforcement_learning_output/animations")
