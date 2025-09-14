@@ -3,7 +3,7 @@ from states import LearningState
 
 
 def empty_choices():
-    choices = {-0.03: 0, -0.02: 0, -0.01: 0, 0: 0, 0.01: 0, 0.02: 0, 0.03: 0}
+    choices = {-0.3: 0, -0.2: 0, -0.1: 0, 0: 0, 0.1: 0, 0.2: 0, 0.3: 0}
     return choices
 
 

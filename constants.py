@@ -1,4 +1,4 @@
-m = 0.01
+m = 0.1
 r = 1
 dt = 0.01   # Recommend setting this value to something that divides 0.1 with no remainder
 end_time = 50_000
