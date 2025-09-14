@@ -51,5 +51,5 @@ plt.show()
 
 # Animate
 # TODO: Re-enable?
-#make_frames(theta_list)
-#make_gif("reinforcement_learning_output/frames", "reinforcement_learning_output/animations")
+make_frames(theta_list[:1_000] + theta_list[-1_000:], [ii for ii in range(1_000)] + [ii for ii in range(len(theta_list)-1_000, len(theta_list))])
+make_gif("reinforcement_learning_output/frames", "reinforcement_learning_output/animations")

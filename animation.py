@@ -10,15 +10,18 @@ from tqdm import tqdm
 from constants import m, r, dt, end_time, alpha, gamma, k, r_bob
 
 
-def make_frames(theta_list):
+def make_frames(theta_list, frame_numbers):
     #
-    # PRODUCING FRAMES
+    # PRODUCING FRAMES AT 10 FPS
     #
 
-    # Create time vector
-    t = np.arange(0, end_time, dt)   # vector of times
+    # Reduce theta_list and frame_numbers to just 10 frames per second
+    reduction_modulo = round(0.1 / dt)     # 0.01 -> 10
+    theta_list_reduced = [theta for ii, theta in enumerate(theta_list) if ii % reduction_modulo == 0]
+    frame_numbers_reduced = [frame_number for ii, frame_number in enumerate(frame_numbers) if ii % reduction_modulo == 0]
 
-    for frame_number, theta in tqdm(enumerate(theta_list), total=len(theta_list)):
+    # Plot
+    for frame_number, theta in tqdm(zip(frame_numbers_reduced, theta_list_reduced), total=len(theta_list_reduced)):
         make_plot(theta, frame_number)
 
 
@@ -40,7 +43,7 @@ def make_plot(theta, frame_number):
     ax.add_patch(c1)
 
     # Add timestamp
-    ax.text(0, -0.25, f"t = {round(frame_number, 3) * dt} s")
+    ax.text(0, -0.25, f"t = {round(frame_number * dt, 3)} s")
 
     # Centre the image on the fixed anchor point, and ensure the axes are equal
     ax.set_xlim(-r - r_bob, r + r_bob)
@@ -55,7 +58,7 @@ def make_plot(theta, frame_number):
 # COMBINING FRAMES INTO A GIF
 #
 def make_gif(frame_folder, destination_folder):
-    """Given a path to a frame folder, produce a gif animation at the destination folder."""
+    """Given a path to a frame folder, produce a 10 fps gif animation at the destination folder."""
     frame_filepaths = glob.glob(f"{frame_folder}/*.png")
     frame_filepaths.sort()
     frames = [Image.open(image) for image in frame_filepaths]
