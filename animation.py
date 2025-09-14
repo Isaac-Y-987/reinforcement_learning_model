@@ -39,6 +39,9 @@ def make_plot(theta, frame_number):
     ax.add_patch(c0)
     ax.add_patch(c1)
 
+    # Add timestamp
+    ax.text(0, -0.25, f"t = {round(frame_number, 3) * dt} s")
+
     # Centre the image on the fixed anchor point, and ensure the axes are equal
     ax.set_xlim(-r - r_bob, r + r_bob)
     ax.set_ylim(-r - r_bob, r + r_bob)
@@ -53,7 +56,8 @@ def make_plot(theta, frame_number):
 #
 def make_gif(frame_folder, destination_folder):
     """Given a path to a frame folder, produce a gif animation at the destination folder."""
-    frames = [Image.open(image) for image in glob.glob(f"{frame_folder}/*.png")]
-    frame_one = frames[0]
-    frame_one.save(f"{destination_folder}/out.gif", format="GIF", append_images=frames,
+    frame_filepaths = glob.glob(f"{frame_folder}/*.png")
+    frame_filepaths.sort()
+    frames = [Image.open(image) for image in frame_filepaths]
+    frames[0].save(f"{destination_folder}/out.gif", format="GIF", append_images=frames[1:],
                    save_all=True, duration=dt*1000, loop=0)    # duration is the amount of time between frames, in milliseconds

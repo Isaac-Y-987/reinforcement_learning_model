@@ -11,3 +11,11 @@ wheels/
 
 # PyCharm
 .idea/
+
+# UV
+.python-version
+pyproject.toml
+uv.lock
+
+# Operating systems
+.DS_Store
