@@ -53,7 +53,9 @@ def make_plot(theta, frame_number):
 #
 def make_gif(frame_folder, destination_folder):
     """Given a path to a frame folder, produce a gif animation at the destination folder."""
-    frames = [Image.open(image) for image in glob.glob(f"{frame_folder}/*.png")]
+    images = glob.glob(f"{frame_folder}/*.png")
+    images.sort()
+    frames = [Image.open(image) for image in images]
     frame_one = frames[0]
     frame_one.save(f"{destination_folder}/out.gif", format="GIF", append_images=frames,
                    save_all=True, duration=dt*1000, loop=0)    # duration is the amount of time between frames, in milliseconds

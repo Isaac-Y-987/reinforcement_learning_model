@@ -53,7 +53,7 @@ class LearningState:
         """
         :return: the reward
         """
-        reward = 4.5-abs(5-self.angle)
+        reward = 16-abs(5-self.angle)**2
         return reward
 
     def __hash__(self):
