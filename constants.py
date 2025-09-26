@@ -2,6 +2,7 @@ m = 1
 r = 1
 dt = 0.01
 end_time = 100
+frame_rate = 10
 alpha = 0.08
 gamma = 0.990
 k = 500

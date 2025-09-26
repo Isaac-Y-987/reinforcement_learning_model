@@ -7,7 +7,7 @@ from matplotlib.patches import Circle
 import glob
 from PIL import Image
 from tqdm import tqdm
-from constants import m, r, dt, end_time, alpha, gamma, k, r_bob
+from constants import m, r, dt, end_time, frame_rate, alpha, gamma, k, r_bob
 
 
 def make_frames(theta_list):
@@ -17,9 +17,13 @@ def make_frames(theta_list):
 
     # Create time vector
     t = np.arange(0, end_time, dt)   # vector of times
-
+    mod = 1/(frame_rate*dt)
+    if mod != int(mod):
+        raise ValueError("1/dt must be divisible by frame_rate")
     for frame_number, theta in tqdm(enumerate(theta_list), total=len(theta_list)):
-        make_plot(theta, frame_number)
+        if frame_number % mod == 0:
+            make_plot(theta, frame_number)
+
 
 
 def make_plot(theta, frame_number):
@@ -58,4 +62,4 @@ def make_gif(frame_folder, destination_folder):
     frames = [Image.open(image) for image in images]
     frame_one = frames[0]
     frame_one.save(f"{destination_folder}/out.gif", format="GIF", append_images=frames,
-                   save_all=True, duration=dt*1000, loop=0)    # duration is the amount of time between frames, in milliseconds
+                   save_all=True, duration=(1/frame_rate)*1000, loop=0)    # duration is the amount of time between frames, in milliseconds

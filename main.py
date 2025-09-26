@@ -42,8 +42,6 @@ for time in np.arange(0, end_time,dt):
     #print("theta = " + str(round(physical_state.theta, 3)))
     #print("v = " + str(round(physical_state.v,3)))
 
-#make_frames(theta_list)
-#make_gif("reinforcement_learning_output/frames", "reinforcement_learning_output/animations")
 plt.figure()
 plt.plot(timestamps, theta_list)
 plt.plot(timestamps, [np.pi/2 for n in range(len(theta_list))])
@@ -53,3 +51,6 @@ plt.ylim(-0.1, np.pi+0.5)
 plt.xlabel("time (s)")
 plt.ylabel("angle (rad)")
 plt.show()
+make_frames(theta_list)
+make_gif("reinforcement_learning_output/frames", "reinforcement_learning_output/animations")
+
